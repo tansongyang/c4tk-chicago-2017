@@ -3,7 +3,8 @@ import {
   HashRouter as Router,
   Route,
   Switch,
-} from 'react-router-dom'
+} from 'react-router-dom';
+import Header from './Header';
 import './App.css';
 
 class App extends Component {
@@ -11,11 +12,12 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-            <Switch>
-              <Route exact path="/" component={Home}/>
-              <Route path="/profile" component={Profile}/>
-              <Route component={NoMatch}/>
-            </Switch>
+          <Header/>
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route path="/profile" component={Profile}/>
+            <Route component={NoMatch}/>
+          </Switch>
         </div>
       </Router>
     );
@@ -41,4 +43,3 @@ function NoMatch() {
     <div>404</div>
   );
 }
-
