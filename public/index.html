@@ -61,16 +61,6 @@ button {
 var RTCPeerConnection = window.webkitRTCPeerConnection;
 
 //Create an account on Firebase, and use the credentials they give you in place of the following
-var config = {
-   apiKey: "AIzaSyAqsquOVAUkNol9l7QttoTI1s3zXNA32Fw",
-   authDomain: "christianminglebutbetter.firebaseapp.com",
-   databaseURL: "https://christianminglebutbetter.firebaseio.com",
-   projectId: "christianminglebutbetter",
-   storageBucket: "christianminglebutbetter.appspot.com",
-   messagingSenderId: "904563004940"
-};
-firebase.initializeApp(config);
-
 var database = firebase.database().ref();
 var yourVideo = document.getElementById("yourVideo");
 var friendsVideo = document.getElementById("friendsVideo");
