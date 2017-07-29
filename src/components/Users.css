@@ -1,3 +1,19 @@
 .Users-photo {
-  width: 200px;
+  display: block;
+  margin: 16px auto;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.Users-form {
+  display: block;
+  width: 512px;
+  margin: 0 auto;
+}
+
+.Users-label {
+  display: flex;
+  justify-content: space-between;
 }
