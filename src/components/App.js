@@ -8,6 +8,7 @@ import {
 import firebase from 'firebase';
 import ReactFireMixin from 'reactfire';
 import Header from './Header';
+import Users from './Users';
 import './App.css';
 
 var config = {
@@ -27,7 +28,7 @@ const App = React.createClass({
       users: []
     };
   },
-  componentWillMount: function() {
+  componentDidMount: function() {
     const ref = firebase.database().ref('Users');
     ref.once('value').then((snapshot) => {
       const val = snapshot.val();
@@ -39,21 +40,25 @@ const App = React.createClass({
       }
       this.setState({ users });
     });
-    this.bindAsArray(ref, 'users');
   },
   render: function() {
-    const MyHome = (props) => {
+    const AppHome = (props) => {
       return (
         <Home users={this.state.users} {...props}/>
       );
     };
+    const AppUsers = (props) => {
+      return (
+        <Users users={this.state.users} {...props}/>
+      );
+    }
     return (
       <Router>
         <div className="App">
           <Header/>
           <Switch>
-            <Route exact path="/" component={MyHome}/>
-            <Route path="/users" component={Users}/>
+            <Route exact path="/" component={AppHome}/>
+            <Route path="/users/:id" component={AppUsers}/>
             <Route component={NoMatch}/>
           </Switch>
         </div>
@@ -80,12 +85,6 @@ function Home(props) {
         })}
       </ul>
     </div>
-  );
-}
-
-function Users() {
-  return (
-    <div>Users</div>
   );
 }
 
