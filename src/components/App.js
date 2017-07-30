@@ -14,18 +14,6 @@ import Login from './Login';
 import Users from './Users';
 import './App.css';
 
-var config = {
-   apiKey: "AIzaSyAqsquOVAUkNol9l7QttoTI1s3zXNA32Fw",
-   authDomain: "christianminglebutbetter.firebaseapp.com",
-   databaseURL: "https://christianminglebutbetter.firebaseio.com",
-   projectId: "christianminglebutbetter",
-   storageBucket: "christianminglebutbetter.appspot.com",
-   messagingSenderId: "904563004940"
-};
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
-}
-
 const App = React.createClass({
   mixins: [ReactFireMixin],
   getInitialState: function() {
