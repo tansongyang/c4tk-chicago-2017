@@ -99,6 +99,7 @@ var webRTCStuff = function() {
   })) : console.log("Sent All Ice"));
   pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
 
+  // important: parameters sent to Firebase
   function sendMessage(senderId, data) {
     var msg = database.push({
       sender: senderId,
@@ -107,6 +108,7 @@ var webRTCStuff = function() {
     msg.remove();
   }
 
+  // important: reads a message - add listener?
   function readMessage(data) {
     var msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
@@ -134,11 +136,11 @@ var webRTCStuff = function() {
   }
 }
 
-/***
+
 var startAMix = function() {
 
     var client = new HttpClient();
-  client.get('', function(response) {
+  client.get('https://us-central1-christianminglebutbetter.cloudfunctions.net/cmbb?', function(response) {
     // do something with response
     if (response === '200') {
 
@@ -153,7 +155,7 @@ var startAMix = function() {
     // might use response later (RESULT CODE or Text???)
   });
 }
-***/
+
     </script>
 
     <button id="thebutton" onclick="webRTCStuff()">Mix!<button/>
