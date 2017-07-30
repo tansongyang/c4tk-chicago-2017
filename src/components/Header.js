@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import firebase from 'firebase';
 import './Header.css';
 
-export default class Home extends Component {
+class Home extends Component {
+  logout() {
+    firebase.auth().signOut().then(() => {
+        this.props.history.push({
+          pathname: '/login'
+        })
+    });
+  }
+
   render() {
     return (
       <header className="Header">
-        TODO: Title
+        <span>Not an Island</span>
+        <button onClick={() => this.logout()}>Logout</button>
       </header>
     );
   }
 }
+export default (withRouter(Home))

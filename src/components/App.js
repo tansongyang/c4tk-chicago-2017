@@ -2,13 +2,15 @@ import React from 'react';
 import {
   HashRouter as Router,
   Link,
-  Route,
   Switch,
 } from 'react-router-dom';
 import firebase from 'firebase';
 import ReactFireMixin from 'reactfire';
+import { requireAuth } from '../auth';
+import Route from './AuthRoute';
 import Call from './Call';
 import Header from './Header';
+import Login from './Login';
 import Users from './Users';
 import './App.css';
 
@@ -20,7 +22,9 @@ var config = {
    storageBucket: "christianminglebutbetter.appspot.com",
    messagingSenderId: "904563004940"
 };
-firebase.initializeApp(config);
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
 
 const App = React.createClass({
   mixins: [ReactFireMixin],
@@ -63,6 +67,7 @@ const App = React.createClass({
         <div className="App">
           <Header/>
           <Switch>
+            <Route path="/login" component={Login}/>
             <Route exact path="/" component={AppHome}/>
             <Route exact path="/users/:id" component={AppUsers}/>
             <Route path="/users/:id/call/:target" component={AppCall}/>
