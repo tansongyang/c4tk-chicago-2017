@@ -10,15 +10,48 @@ const servers = {
     'urls': 'stun:stun.l.google.com:19302'
   }]
 };
+const pc = new RTCPeerConnection(servers);
 
-export default class Call extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pc: null
-    };
+function sendMessage(sender, target, data) {
+  const msg = firebase.database().ref().push({
+    sender,
+    target,
+    message: data
+  });
+  msg.remove();
+}
+
+function readMessage(sender, target, data) {
+  const val = data.val();
+  if (!val.message) {
+    return;
   }
 
+  const msg = JSON.parse(val.message);
+  if (val.sender === sender) {
+    return;
+  }
+
+  if (msg.ice) {
+    pc.addIceCandidate(new RTCIceCandidate(msg.ice));
+  } else if (msg.sdp.type === 'offer') {
+    pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
+      .then(() => pc.createAnswer())
+      .then((answer) => pc.setLocalDescription(answer))
+      .then(() => {
+        sendMessage(
+          sender,
+          target,
+          JSON.stringify({
+            sdp: pc.localDescription
+          }));
+      });
+  } else if (msg.sdp.type == "answer") {
+    pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+  }
+}
+
+export default class Call extends React.Component {
   getSelectedId() {
     return this.props.match.params.id;
   }
@@ -27,12 +60,11 @@ export default class Call extends React.Component {
     return this.props.match.params.target;
   }
 
-  callFriend() {
-    const { pc } = this.state;
+  showFriend() {
     pc.createOffer()
-      .then((offer) => {
-        pc.setLocalDescription(offer);
-        this.sendMessage(
+      .then((offer) => pc.setLocalDescription(offer))
+      .then(() => {
+        sendMessage(
           this.getSelectedId(),
           this.getTargetId(),
           JSON.stringify({
@@ -41,57 +73,19 @@ export default class Call extends React.Component {
       });
   }
 
-  sendMessage(sender, target, data) {
-    const msg = firebase.database().ref().push({
-      sender,
-      target,
-      message: data
+  showSelf() {
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then((stream) => {
+      if (this.ourVideo) {
+        this.ourVideo.srcObject = stream;
+        pc.addStream(stream);
+      }
     });
-    msg.remove();
-  }
-
-  readMessage(data) {
-    const val = data.val();
-    if (!val.message) {
-      console.log('Read unexpected message')
-      console.log(val)
-      return;
-    }
-
-    const msg = JSON.parse(val.message);
-    const target = data.val().target;
-    if (target !== this.getSelectedId()) {
-      console.log('Got target ' + target + ' but expected ' + this.getTargetId())
-      return;
-    }
-
-    const { pc } = this.state;
-    if (msg.ice) {
-      pc.addIceCandidate(new RTCIceCandidate(msg.ice));
-    } else if (msg.sdp.type === "offer") {
-      pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
-        .then(() => pc.createAnswer())
-        .then((answer) => {
-          pc.setLocalDescription(answer);
-          this.sendMessage(
-            this.getSelectedId(),
-            this.getTargetId(),
-            JSON.stringify({
-              sdp: pc.localDescription
-            }));
-        });
-    } else if (msg.sdp.type == "answer") {
-      pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
-    }
   }
 
   componentDidMount() {
-    firebase.database().ref().on('child_added', this.readMessage.bind(this));
-
-    const pc = new RTCPeerConnection(servers);
     pc.onicecandidate = (event) => {
       if (event.candidate) {
-        this.sendMessage(
+        sendMessage(
           this.getSelectedId(),
           this.getTargetId(),
           JSON.stringify({
@@ -101,28 +95,16 @@ export default class Call extends React.Component {
         console.log('Send All Ice');
       }
     };
-
-    // Start our video.
-    navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true
-    })
-      .then((stream) => {
-        if (this.ourVideo) {
-          this.ourVideo.srcObject = stream;
-          pc.addStream(stream);
-        }
-      });
-
-    // Try to start their video
-    const component = this;
     pc.onaddstream = (event) => {
-      if (component.theirVideo) {
-        component.theirVideo.srcObject = event.stream;
+      if (this.theirVideo) {
+        this.theirVideo.srcObject = event.stream;
       }
     };
-
-    this.setState({ pc });
+    firebase.database().ref().on('child_added', (data) => readMessage(
+      this.getSelectedId(),
+      this.getTargetId(),
+      data));
+    this.showSelf();
   }
 
   render() {
@@ -146,7 +128,7 @@ export default class Call extends React.Component {
           className="Call-video"
           ref={(video) => this.theirVideo = video}
         />
-        <button onClick={() => this.callFriend()}>Call</button>
+        <button onClick={() => this.showFriend()}>Call</button>
       </div>
     );
   }
