@@ -60,7 +60,7 @@ export default class Call extends React.Component {
 
     const msg = JSON.parse(val.message);
     const target = data.val().target;
-    if (target !== this.getTargetId()) {
+    if (target !== this.getSelectedId()) {
       console.log('Got target ' + target + ' but expected ' + this.getTargetId())
       return;
     }
@@ -115,9 +115,10 @@ export default class Call extends React.Component {
       });
 
     // Try to start their video
+    const component = this;
     pc.onaddstream = (event) => {
-      if (this.theirVideo) {
-        this.theirVideo.srcObject = event.stream;
+      if (component.theirVideo) {
+        component.theirVideo.srcObject = event.stream;
       }
     };
 
