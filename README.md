@@ -3,15 +3,21 @@
 ## Description 
 This web app is designed to initiate conversations between two random people with the greatest differences. It's made to motivate meaningful discussions among people who may not normally converse.
 
-> No man is an island entire of itself; every man  
-> is a piece of the continent, a part of the main;  
-> if a clod be washed away by the sea, Europe  
-> is the less, as well as if a promontory were, as  
-> well as any manner of thy friends or of thine  
-> own were; any man's death diminishes me,  
-> because I am involved in mankind.  
-> And therefore never send to know for whom  
-> the bell tolls; it tolls for thee.  
+> No man is an island,  
+> Entire of itself;  
+> Every man is a piece of the continent,   
+> A part of the main.  
+>   
+> If a clod be washed away by the sea,  
+> Europe is the less,  
+> As well as if a promontory were:  
+> As well as if a manor of thy friend's  
+> Or of thine own were.  
+>   
+> Any man's death diminishes me,  
+> Because I am involved in mankind.  
+> And therefore never send to know for whom the bell tolls;  
+> It tolls for thee.    
 > ―Johne Donne
 
 ## Running
