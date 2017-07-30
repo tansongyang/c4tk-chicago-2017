@@ -105,6 +105,7 @@ export default class Call extends React.Component {
       this.getTargetId(),
       data));
     this.showSelf();
+    this.showFriend();
   }
 
   render() {
@@ -128,7 +129,6 @@ export default class Call extends React.Component {
           className="Call-video"
           ref={(video) => this.theirVideo = video}
         />
-        <button onClick={() => this.showFriend()}>Call</button>
       </div>
     );
   }
