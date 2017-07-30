@@ -31,3 +31,9 @@
   justify-content: space-between;
   text-transform: lowercase;
 }
+
+.Users-bottom {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0;
+}

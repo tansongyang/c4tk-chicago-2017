@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   Link,
-  Redirect
+  Redirect,
+  withRouter
 } from 'react-router-dom';
 import firebase from 'firebase';
 import './Users.css';
@@ -18,12 +19,22 @@ const ignoredKeys = [
   'weaknesses',
 ];
 
-export default class Users extends React.Component {
+class Users extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: null
     };
+  }
+
+  connect() {
+    getMatch(firebase.auth().currentUser.uid).then((target) => {
+      this.props.history.push({
+        pathname: this.props.location.pathname + 'call/' + target
+      });
+    }).catch((error) => {
+      alert(error);
+    });
   }
 
   componentDidMount() {
@@ -69,7 +80,27 @@ export default class Users extends React.Component {
             );
           })}
         </form>
+        <div className="Users-bottom">
+          <button
+            className="Users-talkButton"
+            onClick={() => this.connect()}
+          >
+            connect with someone
+          </button>
+        </div>
       </div>
     );
   }
+}
+export default withRouter(Users)
+
+function getMatch(id) {
+  // TODO: Real implementation that calls firebase function.
+  if (id === 'AuFJsDrav2YrzUbY1lWxeBB8JTh2') {
+    return Promise.resolve('QSn75ngF3EN4gNlbn0KrYtJ21TH2');
+  }
+  if (id === 'QSn75ngF3EN4gNlbn0KrYtJ21TH2') {
+    return Promise.resolve('AuFJsDrav2YrzUbY1lWxeBB8JTh2');
+  }
+  throw 'Could not get match';
 }
