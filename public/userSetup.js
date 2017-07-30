@@ -12,7 +12,9 @@ var config = {
    storageBucket: "christianminglebutbetter.appspot.com",
    messagingSenderId: "904563004940"
 };
-firebase.initializeApp(config);
+if(!firebase.apps.length){
+  firebase.initializeApp(config);
+}
 var rootRef = firebase.database().ref();
 
 function authHandler(error) {

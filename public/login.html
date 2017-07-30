@@ -89,13 +89,16 @@ span.psw {
 
     <div class="container" style="background-color:#262228"> <!--Dark ashy gray-->
       <button onclick="forgotPassword();" type="button" class="cancelbtn">Forgot Password?</button>
-      <button style="right:800px;" type=button class="cancelbtn">Register</button>
+      <button onclick="gotoRegister();" type="button" class="cancelbtn">Register</button>
     </div>
   </form>
 
   <script>
     function forgotPassword(){
       alert("Think harder! You'll remember it");
+    }
+    function gotoRegister(){
+      window.location.href = "register.html";
     }
     function objToString (obj) {
       var str = '';
@@ -129,7 +132,7 @@ span.psw {
         console.log("User: " + user);
 
         if(user != null) {
-          window.location.href = "file:///C:/Users/Evan/Documents/GitHub/c4tk-chicago-2017/public/index.html";
+          window.location.href = "index.html";
         }
       }).catch(function(value){
         console.log("Value: " + value);
