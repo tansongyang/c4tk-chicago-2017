@@ -22,16 +22,71 @@ firebase.initializeApp(config);
 //  response.send("Hello from Firebase!");
 // });
 
-function lookupUsers() {
+function lookupMyInfo(TheRequest) {
+    return firebase.database().ref('/Users/' + TheRequest.id)
+    .once('value')
+    .then(function (snapshot) {
+        
+        var myEducation = snapshot.child("Education").val(); // "University of Awesomeness"
+        var myReligion = snapshot.child("Religion").val(); // "Methodist"
+        //var myAge = snapshot.child("doB")
+        var myGender = snapshot.child("gender").val(); // "Male"
+        var myParty = snapshot.child("party").val();
+        var myRace = snapshot.child("race").val();
+        
+        return snapshot;
+
+    });
+}
+function matchUsers(id) {
     return firebase.database().ref('/Users')
         .once('value')
         .then(function (snapshot) {
             var users = snapshot.val();
-            return JSON.stringify(users)
+            var userArray = [];
+            var differencePoint = 0.2;
+            var differenceValues = [];
+            for (var key in users) {
+                if (key !== id) {
+                var user = users[key];
+                var difference = 0;
+                userArray.push(user);
+                if (user.education !== lookupMyInfo.myEducation) {
+                    difference += differencePoint;
+                }
+                if (user.religion !== lookupMyInfo.myReligion) {
+                    difference += differencePoint;
+                }
+                if (user.gender !== lookupMyInfo.myGender) {
+                    difference += differencePoint;
+                }
+                if (user.party !== lookupMyInfo.myParty) {
+                    difference += differencePoint;
+                }
+                if (user.race !== lookupMyInfo.myRace) {
+                    difference += differencePoint;
+                }
+
+                differenceValues.push({id: key, difference:difference});
+            }
+            
+            }
+            sortedList = differenceValues.sort(function (a, b) {
+            return a.difference - b.difference;
+            });
+            topTen = sortedList.slice(0,9)
+            var rand = topTen[Math.floor(Math.random() * topTen.length)].id;
+
+
+            return rand;
         });
 
 }
-module.exports = lookupUsers;
+
+
+// module.exports = lookupMyInfo;
+// module.exports = matchUsers;
+// //module.exports = makeAMatch;
 
 exports.cmbb = functions.https.onRequest((req, res) => {
     // Read database for users who are looking for mixmates
@@ -48,8 +103,8 @@ exports.cmbb = functions.https.onRequest((req, res) => {
         res.status(403).send('Forbidden!');
     }
 
-    lookupUsers.then(function(json){
-        res.status(200).send(json);
-    })
+    matchUsers(req.id).then(function(rand) {
+        res.status(200).send(rand);
+    });
 });
 });
