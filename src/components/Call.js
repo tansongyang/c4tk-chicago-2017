@@ -118,17 +118,17 @@ export default class Call extends React.Component {
     return (
       <div>
         <video
-          autoplay={true}
+          autoPlay
           className="Call-video"
-          muted={true}
+          muted
           ref={(video) => this.ourVideo = video}
         />
         <video
-          autoplay={true}
+          autoPlay
           className="Call-video"
           ref={(video) => this.theirVideo = video}
         />
-      <button onClick={() => this.showFriend()}>Retry</button>
+        <button onClick={() => this.showFriend()}>Retry</button>
       </div>
     );
   }
