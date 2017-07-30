@@ -10,6 +10,7 @@ import { requireAuth } from '../auth';
 import Route from './AuthRoute';
 import Call from './Call';
 import Header from './Header';
+import Home from './Home';
 import Login from './Login';
 import Users from './Users';
 import './App.css';
@@ -40,25 +41,6 @@ const App = React.createClass({
 });
 
 export default App;
-
-function Home(props) {
-  return (
-    <div>
-      Home
-      <ul>
-        {props.users.map((u) => {
-          return (
-            <li key={u.key}>
-              <Link to={`/users/${u.key}`}>
-                {u.name}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-}
 
 function NoMatch() {
   return (

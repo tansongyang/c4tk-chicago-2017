@@ -3,7 +3,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
 
-const PUBLIC_ROOT = '/login';
+const PUBLIC_ROOT = '/';
 
 const AuthRoute = ({component, ...props}) => {
   if (props.path === PUBLIC_ROOT || isAuthenticated()) {
