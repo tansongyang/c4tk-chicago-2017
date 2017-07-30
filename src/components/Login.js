@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import firebase from 'firebase';
+import './Login.css';
 
 class Login extends React.Component {
   login() {
@@ -30,17 +31,23 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Login</h1>
-        <label>
-           Email
-          <input type="text" placeholder="Enter Email" required ref={(e) => this.email = e}/>
-        </label>
-        <label>
-          Password
-          <input type="password" placeholder="Enter Password" required ref={(e) => this.password = e}/>
-        </label>
-        <button onClick={() => this.login()} type="button">Login</button>
+      <div className="Login">
+        <h1 className="Login-title">Login</h1>
+        <div className="Login-controls">
+          <div className="Login-controlRow">
+            <label className="Login-controlLabel">
+               Email
+              <input type="text" placeholder="Enter Email" required ref={(e) => this.email = e}/>
+            </label>
+          </div>
+          <div className="Login-controlRow">
+            <label className="Login-controlLabel">
+              Password
+              <input type="password" placeholder="Enter Password" required ref={(e) => this.password = e}/>
+            </label>
+          </div>
+          <button className="Login-button" onClick={() => this.login()} type="button">Log in</button>
+        </div>
       </div>
     );
   }

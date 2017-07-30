@@ -24,7 +24,7 @@ class Home extends Component {
         {firebase.auth().currentUser ? (
           <span>
             <span className="Header-welcome">Welcome back, {firebase.auth().currentUser.email}!</span>
-            <button classname="Header-logout" onClick={() => this.logout()}>Log out</button>
+            <button className="Header-logout" onClick={() => this.logout()}>Log out</button>
           </span>
         ) : !isLogin && (
           <button classname="Header-login" onClick={() => this.login()}>Log in</button>

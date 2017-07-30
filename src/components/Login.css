@@ -1,0 +1,22 @@
+.Login {
+  text-align: center;
+}
+
+.Login-title {
+  text-transform: lowercase;
+}
+
+.Login-controls {
+  width: 320px;
+  margin: 0 auto;
+}
+
+.Login-controlLabel {
+  display: flex;
+  justify-content: space-between;
+  text-transform: lowercase;
+}
+
+.Login-button {
+  margin-top: 32px;
+}
