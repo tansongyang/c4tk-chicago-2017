@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/4.1.5/firebase.js"></script>
+<title>Login</title>
+</head>
+<style>
+form {
+    border: 3px solid #0c7eff;
+}
+
+/* Full-width inputs */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Add a hover effect for buttons */
+button:hover {
+    opacity: 0.8;
+}
+
+/* Extra style for the cancel button (red) */
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+/* Center the avatar image inside this container */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+/* Add padding to containers */
+.container {
+    padding: 16px;
+}
+
+/* The "Forgot password" text */
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+    .cancelbtn {
+        width: 100%;
+    }
+}
+</style>
+<body bgcolor="#262228"> <!--Dark ashy gray-->
+  <form>
+    <div class="container" style="background-color:#262228"> <!--Dark ashy gray-->
+      <center><h1 style="color:#FFCE00;">WELCOME TO NOT AN ISLAND</h1></center>
+      <center><h3 style="color:#FFCE00;">The interactive video chat to meet dissimilar people</h3><center>
+    </div>
+
+    <div class="container">
+      <label style="color:#FFCE00;"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="uname" id="email" required>
+
+      <label style="color:#FFCE00;"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" id="password" required>
+
+      <button style="color:007849;" onclick="login();" type="button">Login</button>
+    </div>
+
+    <div class="container" style="background-color:#262228"> <!--Dark ashy gray-->
+      <button onclick="forgotPassword();" type="button" class="cancelbtn">Forgot Password?</button>
+      <button style="right:800px;" type=button class="cancelbtn">Register</button>
+    </div>
+  </form>
+
+  <script>
+    function forgotPassword(){
+      alert("Think harder! You'll remember it");
+    }
+    function objToString (obj) {
+      var str = '';
+      for (var p in obj) {
+          if (obj.hasOwnProperty(p)) {
+              str += p + '::' + obj[p] + '\n';
+          }
+      }
+      return str;
+    }
+    function login(){
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      var config = {
+         apiKey: "AIzaSyAqsquOVAUkNol9l7QttoTI1s3zXNA32Fw",
+         authDomain: "christianminglebutbetter.firebaseapp.com",
+         databaseURL: "https://christianminglebutbetter.firebaseio.com",
+         projectId: "christianminglebutbetter",
+         storageBucket: "christianminglebutbetter.appspot.com",
+         messagingSenderId: "904563004940"
+      };
+      if(!firebase.apps.length){
+        firebase.initializeApp(config);
+      }
+      console.log("Email: " + email.value);
+      console.log("Password: " + password.value);
+      firebase.auth().signInWithEmailAndPassword(email, password).then(function(value){
+        console.log("Value: " + value);
+        var user = firebase.auth().currentUser;
+        console.log("User: " + user);
+
+        if(user != null) {
+          window.location.href = "file:///C:/Users/Evan/Documents/GitHub/c4tk-chicago-2017/public/index.html";
+        }
+      }).catch(function(value){
+        console.log("Value: " + value);
+        //deal with errors
+        if(value.code === "auth/argument-error" || value.code === "auth/invalid-email"){
+          alert("Enter a valid email");
+          location.reload();
+        }
+        else{
+          alert("Incorrect username/ password!");
+          location.reload();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
