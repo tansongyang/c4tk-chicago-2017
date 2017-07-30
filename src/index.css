@@ -11,7 +11,7 @@ body {
 blockquote {
   display: flex;
   flex-direction: column;
-  border-left: 8px solid #888;
+  border-left: 4px solid #888;
   padding-left: 8px;
   color: #888;
   font-style: italic;
