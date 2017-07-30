@@ -29,8 +29,12 @@ class Users extends React.Component {
 
   connect() {
     getMatch(firebase.auth().currentUser.uid).then((target) => {
+      let current = this.props.location.pathname;
+      if (current.charAt(current.length-1) !== '/') {
+        current += '/'
+      }
       this.props.history.push({
-        pathname: this.props.location.pathname + 'call/' + target
+        pathname: current + 'call/' + target
       });
     }).catch((error) => {
       alert(error);
