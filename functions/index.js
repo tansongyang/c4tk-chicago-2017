@@ -10,7 +10,7 @@ var config = {
     projectId: "christianminglebutbetter",
     storageBucket: "christianminglebutbetter.appspot.com",
     messagingSenderId: "904563004940"
-  };
+};
 
 firebase.initializeApp(config);
 
@@ -22,27 +22,34 @@ firebase.initializeApp(config);
 //  response.send("Hello from Firebase!");
 // });
 
+function lookupUsers() {
+    return firebase.database().ref('/Users')
+        .once('value')
+        .then(function (snapshot) {
+            var users = snapshot.val();
+            return JSON.stringify(users)
+        });
+
+}
+module.exports = lookupUsers;
+
 exports.cmbb = functions.https.onRequest((req, res) => {
-	// Read database for users who are looking for mixmates
-	// Read your data for info
-	// Scan all users and find differences:
-	// (Set your set of info to 1.0 and divide by 6. Each time
-	//	someone is similar to you, add that. 0 is good, 1 is bad)
+    // Read database for users who are looking for mixmates
+    // Read your data for info
+    // Scan all users and find differences:
+    // (Set your set of info to 1.0 and divide by 6. Each time
+    //	someone is similar to you, add that. 0 is good, 1 is bad)
 
-	cors(req, res, () => {
-		
+    cors(req, res,() =>
+{
 
-		if (req.method === 'PUT') {
-		res.status(403).send('Forbidden!');
-	}
 
-	return firebase.database().ref('/Users')
-	.once('value')
-	.then(function(snapshot) {
-		var users = snapshot.val();
-		var json = JSON.stringify(users);
-		res.status(200).send(json);
-	});
-	
-	});
+    if (req.method === 'PUT') {
+        res.status(403).send('Forbidden!');
+    }
+
+    lookupUsers.then(function(json){
+        res.status(200).send(json);
+    })
+});
 });
