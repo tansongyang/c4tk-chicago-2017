@@ -7,12 +7,15 @@ import firebase from 'firebase';
 import './Users.css';
 
 const ignoredKeys = [
+  'average',
   'key',
   'photoUrl',
   'provider',
   'quote',
+  'score',
   'strengths',
-  'weaknesses'
+  'totalConvos',
+  'weaknesses',
 ];
 
 export default class Users extends React.Component {
@@ -50,6 +53,10 @@ export default class Users extends React.Component {
     return (
       <div>
         <img className="Users-photo"src={user.photoUrl}/>
+        <span className="Users-stats">
+          <span className="Users-pointIcon"></span>
+          <span className="Users-points">{user.average}</span>
+        </span>
         <form className="Users-form">
           {keys.map((k) => {
             return (
@@ -62,21 +69,6 @@ export default class Users extends React.Component {
             );
           })}
         </form>
-        <ul>
-          {this.props.users
-            .filter((u) => {
-              return u.key !== selectedId;
-            })
-            .map((u) => {
-              return (
-                <li key={u.key}>
-                  <Link to={`/users/${selectedId}/call/${u.key}`}>
-                    {u.name}
-                  </Link>
-                </li>
-              );
-            })}
-        </ul>
       </div>
     );
   }

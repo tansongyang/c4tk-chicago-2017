@@ -1,10 +1,23 @@
 .Users-photo {
   display: block;
-  margin: 16px auto;
+  margin: 32px auto;
   width: 128px;
   height: 128px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.Users-stats {
+  display: flex;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.Users-pointIcon {
+  color: rgb(212, 180, 131);
+}
+.Users-pointIcon::after {
+  content: "\2605";
 }
 
 .Users-form {
@@ -16,4 +29,5 @@
 .Users-label {
   display: flex;
   justify-content: space-between;
+  text-transform: lowercase;
 }
