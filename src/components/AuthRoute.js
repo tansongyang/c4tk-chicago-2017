@@ -6,7 +6,9 @@ import { isAuthenticated } from '../auth';
 const PUBLIC_ROOT = '/';
 
 const AuthRoute = ({component, ...props}) => {
-  if (props.path === PUBLIC_ROOT || isAuthenticated()) {
+  if (props.path === PUBLIC_ROOT ||
+    props.path === '/login' ||
+    isAuthenticated()) {
       return <Route { ...props } component={ component } />;
   }
   else {
