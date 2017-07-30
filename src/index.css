@@ -1,9 +1,20 @@
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Poppins';
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 9px;
+  box-shadow: 1px 1px 2px rgb(32, 129, 126);
+  background-color: rgb(72, 169, 166);
+  color: white;
+  font-size: 16px;
+  text-transform: lowercase;
 }

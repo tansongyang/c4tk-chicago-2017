@@ -15,8 +15,13 @@ class Home extends Component {
   render() {
     return (
       <header className="Header">
-        <span>Not an Island</span>
-        <button onClick={() => this.logout()}>Logout</button>
+        <span className="Header-title">notanisland</span>
+        {firebase.auth().currentUser && (
+          <span>
+            <span className="Header-welcome">Welcome back, {firebase.auth().currentUser.email}!</span>
+            <button classname="Header-logout" onClick={() => this.logout()}>Logout</button>
+          </span>
+        )}
       </header>
     );
   }
