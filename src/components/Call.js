@@ -56,7 +56,7 @@ function readMessage(sender, target, data) {
             sdp: pc.localDescription
           }));
       });
-  } else if (msg.sdp.type == "answer") {
+  } else if (msg.sdp.type === "answer") {
     pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
   }
 }
