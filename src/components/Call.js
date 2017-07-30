@@ -12,6 +12,11 @@ const servers = {
     },
     {
       urls: 'stun:stun.l.google.com:19302'
+    },
+    {
+      urls: 'turn:numb.viagenie.ca',
+      credential: 'websitebeaver',
+      username: 'websitebeaver@email.com'
     }
   ]
 };
