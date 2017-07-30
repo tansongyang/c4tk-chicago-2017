@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import firebase from 'firebase';
 import ReactFireMixin from 'reactfire';
+import Call from './Call';
 import Header from './Header';
 import Users from './Users';
 import './App.css';
@@ -52,13 +53,19 @@ const App = React.createClass({
         <Users users={this.state.users} {...props}/>
       );
     }
+    const AppCall = (props) => {
+      return (
+        <Call users={this.state.users} {...props}/>
+      );
+    }
     return (
       <Router>
         <div className="App">
           <Header/>
           <Switch>
             <Route exact path="/" component={AppHome}/>
-            <Route path="/users/:id" component={AppUsers}/>
+            <Route exact path="/users/:id" component={AppUsers}/>
+            <Route path="/users/:id/call/:target" component={AppCall}/>
             <Route component={NoMatch}/>
           </Switch>
         </div>

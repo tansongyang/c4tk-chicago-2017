@@ -24,138 +24,13 @@
     <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
     <style>
-video {
-  background-color: #ddd;
-  border-radius: 7px;
-  margin: 10px 0px 0px 10px;
-  width: 320px;
-  height: 240px;
-}
-button {
-  margin: 5px 0px 0px 10px !important;
-  width: 654px;
-} 
     </style>
   </head>
-  <body onload="showMyFace()">
+  <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
-    <video id="yourVideo" autoplay muted></video>
-    <video id="friendsVideo" autoplay></video>
-    <br />
-    <button onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Call</button>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-    <script>
-    //this makes sure that our code will work on different browsers
-    var HttpClient = function() {
-    this.get = function(url, callback) {
-        var anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() { 
-            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                callback(anHttpRequest.responseText);
-        }
-
-        anHttpRequest.open( "GET", aUrl, true );            
-        anHttpRequest.send( null );
-    }
-}
-
-var webRTCStuff = function() {
-
-  var RTCPeerConnection = window.webkitRTCPeerConnection;
-  //Create an account on Firebase, and use the credentials they give you in place of the following
-  var config = {
-    apiKey: "AIzaSyAqsquOVAUkNol9l7QttoTI1s3zXNA32Fw",
-    authDomain: "christianminglebutbetter.firebaseapp.com",
-    databaseURL: "https://christianminglebutbetter.firebaseio.com",
-    projectId: "christianminglebutbetter",
-    storageBucket: "christianminglebutbetter.appspot.com",
-    messagingSenderId: "904563004940"
-  };
-  firebase.initializeApp(config);
-  var database = firebase.database().ref();
-  var yourVideo = document.getElementById("yourVideo");
-  var friendsVideo = document.getElementById("friendsVideo");
-  var yourId = Math.floor(Math.random()*1000000000);
-  var servers = {
-    'iceServers': [{
-      'urls': 'stun:stun.l.google.com:19302'
-    }]
-  };
-  var pc = new RTCPeerConnection(servers);
-  pc.onicecandidate = (event => event.candidate ? sendMessage(yourId, JSON.stringify({
-    'ice': event.candidate
-  })) : console.log("Sent All Ice"));
-  pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
-
-  function sendMessage(senderId, data) {
-    var msg = database.push({
-      sender: senderId,
-      message: data
-    });
-    msg.remove();
-  }
-
-  function readMessage(data) {
-    var msg = JSON.parse(data.val().message);
-    var sender = data.val().sender;
-    if (sender != yourId) {
-      if (msg.ice != undefined) pc.addIceCandidate(new RTCIceCandidate(msg.ice));
-      else if (msg.sdp.type == "offer") pc.setRemoteDescription(new RTCSessionDescription(msg.sdp)).then(() => pc.createAnswer()).then(answer => pc.setLocalDescription(answer)).then(() => sendMessage(yourId, JSON.stringify({
-        'sdp': pc.localDescription
-      })));
-      else if (msg.sdp.type == "answer") pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
-    }
-  };
-  database.on('child_added', readMessage);
-
-  function showMyFace() {
-    navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true
-    }).then(stream => yourVideo.srcObject = stream).then(stream => pc.addStream(stream));
-  }
-
-  function showFriendsFace() {
-    pc.createOffer().then(offer => pc.setLocalDescription(offer)).then(() => sendMessage(yourId, JSON.stringify({
-      'sdp': pc.localDescription
-    })));
-  }
-}
-
-/***
-var startAMix = function() {
-
-    var client = new HttpClient();
-  client.get('', function(response) {
-    // do something with response
-    if (response === '200') {
-
-      var res = responseText;
-      var WebRTCStuff = new webRTCStuff();
-      WebRTCStuff.yourId = "yourId" // change later
-
-    } else {
-      console.log("ERROR: " + response);
-    }
-    
-    // might use response later (RESULT CODE or Text???)
-  });
-}
-***/
     </script>
-
-    <button id="thebutton" onclick="webRTCStuff()">Mix!<button/>
   </body>
 </html>

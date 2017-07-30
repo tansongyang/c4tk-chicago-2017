@@ -1,5 +1,8 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import {
+  Link,
+  Redirect
+} from 'react-router-dom';
 import './Users.css';
 
 const ignoredKeys = [
@@ -40,6 +43,21 @@ export default class Users extends React.Component {
             );
           })}
         </form>
+        <ul>
+          {this.props.users
+            .filter((u) => {
+              return u.key !== selectedId;
+            })
+            .map((u) => {
+              return (
+                <li key={u.key}>
+                  <Link to={`/users/${selectedId}/call/${u.key}`}>
+                    {u.name}
+                  </Link>
+                </li>
+              );
+            })}
+        </ul>
       </div>
     );
   }
