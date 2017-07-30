@@ -99,12 +99,13 @@ class Users extends React.Component {
 export default withRouter(Users)
 
 function getMatch(id) {
-  // TODO: Real implementation that calls firebase function.
-  if (id === 'AuFJsDrav2YrzUbY1lWxeBB8JTh2') {
-    return Promise.resolve('QSn75ngF3EN4gNlbn0KrYtJ21TH2');
-  }
-  if (id === 'QSn75ngF3EN4gNlbn0KrYtJ21TH2') {
-    return Promise.resolve('AuFJsDrav2YrzUbY1lWxeBB8JTh2');
-  }
-  throw 'Could not get match';
+  // // TODO: Real implementation that calls firebase function.
+  // if (id === 'AuFJsDrav2YrzUbY1lWxeBB8JTh2') {
+  //   return Promise.resolve('QSn75ngF3EN4gNlbn0KrYtJ21TH2');
+  // }
+  // if (id === 'QSn75ngF3EN4gNlbn0KrYtJ21TH2') {
+  //   return Promise.resolve('AuFJsDrav2YrzUbY1lWxeBB8JTh2');
+  // }
+  // throw 'Could not get match';
+  return Promise.resolve('foo');
 }

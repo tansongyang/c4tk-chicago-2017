@@ -30,9 +30,17 @@
   height: 100%;
 }
 
-.Call-button {
+.Call-retryButton {
+  position: absolute;
+  right: 64px;
+  bottom: 8px;
+  z-index: 1;
+}
+
+.Call-endButton {
   position: absolute;
   right: 8px;
   bottom: 8px;
   z-index: 1;
+  background-color: rgb(193, 102, 107);
 }

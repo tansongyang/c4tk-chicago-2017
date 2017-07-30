@@ -1,5 +1,8 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import {
+  Redirect,
+  withRouter
+} from 'react-router-dom';
 import firebase from 'firebase';
 import './Call.css';
 
@@ -63,75 +66,24 @@ function showFriendsFace() {
     .then(offer => pc.setLocalDescription(offer) )
     .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
 }
-export default class Call extends React.Component {
+class Call extends React.Component {
   constructor(props) {
     super(props);
     yourId = firebase.auth().currentUser.uid;
   }
 
-  getSelectedId() {
-    return this.props.match.params.id;
+  end() {
+    window.score(firebase);
+    this.props.history.push({
+      pathname: '/users/' + yourId
+    })
   }
-
-  getTargetId() {
-    return this.props.match.params.target;
-  }
-
-  // showFriend() {
-  //   pc.createOffer()
-  //     .then((offer) => pc.setLocalDescription(offer))
-  //     .then(() => {
-  //       sendMessage(
-  //         this.getSelectedId(),
-  //         this.getTargetId(),
-  //         JSON.stringify({
-  //           sdp: pc.localDescription
-  //         }));
-  //     });
-  // }
-
-  // showSelf() {
-  //   navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then((stream) => {
-  //     if (this.ourVideo) {
-  //       this.ourVideo.srcObject = stream;
-  //       pc.addStream(stream);
-  //     }
-  //   });
-  // }
 
   componentDidMount() {
-    // pc.onicecandidate = (event) => {
-    //   if (event.candidate) {
-    //     sendMessage(
-    //       this.getSelectedId(),
-    //       this.getTargetId(),
-    //       JSON.stringify({
-    //         ice: event.candidate
-    //       }));
-    //   } else {
-    //     console.log('Send All Ice');
-    //   }
-    // };
-    // pc.onaddstream = (event) => {
-    //   if (this.theirVideo) {
-    //     this.theirVideo.srcObject = event.stream;
-    //   }
-    // };
-    // firebase.database().ref().on('child_added', (data) => readMessage(
-    //   this.getSelectedId(),
-    //   this.getTargetId(),
-    //   data));
     showMyFace();
   }
 
   render() {
-    const selectedId = this.getSelectedId();
-    const targetId = this.getTargetId();
-    if (!selectedId || !targetId) {
-      return (
-        <Redirect to="/"/>
-      )
-    }
     return (
       <div className="Call">
         <video
@@ -148,13 +100,19 @@ export default class Call extends React.Component {
           ref={(video) => this.theirVideo = video}
         />
         <button
-          className="Call-button"
+          className="Call-retryButton"
           onClick={() => showFriendsFace()}
         >
           Retry
+        </button>
+        <button
+          className="Call-endButton"
+          onClick={() => this.end()}
+        >
+          End
         </button>
       </div>
     );
   }
 }
-
+export default withRouter(Call)

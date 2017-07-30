@@ -12,7 +12,12 @@ class Home extends Component {
 
   logout() {
     firebase.auth().signOut().then(() => {
-      this.login();
+      if (this.props.location.pathname.indexOf('/call/') > -1) {
+        window.score(firebase);
+      }
+      this.props.history.push({
+        pathname: '/'
+      });
     });
   }
 

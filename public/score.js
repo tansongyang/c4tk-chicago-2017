@@ -1,5 +1,6 @@
 //TO PASS IN: user, remoteUid
 
+function score(firebase) {
 var config = {
    apiKey: "AIzaSyAqsquOVAUkNol9l7QttoTI1s3zXNA32Fw",
    authDomain: "christianminglebutbetter.firebaseapp.com",
@@ -45,4 +46,5 @@ else{
     //alert("Scoring failed");
     alert("Scoring successfull!");
   }
+}
 }
