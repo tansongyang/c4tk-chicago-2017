@@ -3,6 +3,7 @@ import {
   Link,
   Redirect
 } from 'react-router-dom';
+import firebase from 'firebase';
 import './Users.css';
 
 const ignoredKeys = [
@@ -15,15 +16,33 @@ const ignoredKeys = [
 ];
 
 export default class Users extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null
+    };
+  }
+
+  componentDidMount() {
+    const currentUser = firebase.auth().currentUser;
+    const ref = firebase.database().ref('Users').child(currentUser.uid);
+    ref.once('value').then((snapshot) => {
+      const user = snapshot.val();
+      this.setState({ user });
+    });
+  }
+
   render() {
     const selectedId = this.props.match.params.id;
-    const user = this.props.users.filter((u) => {
-      return u.key === selectedId;
-    })[0];
-    if (!user) {
+    const currentUser = firebase.auth().currentUser;
+    if (!currentUser || selectedId !== currentUser.uid) {
       return (
         <Redirect to="/"/>
       )
+    }
+    const { user } = this.state;
+    if (!user) {
+      return <div></div>;
     }
     const keys = Object.keys(user).filter((k) => {
       return ignoredKeys.indexOf(k) < 0;
